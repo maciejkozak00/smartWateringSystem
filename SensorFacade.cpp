@@ -2,7 +2,7 @@
 
 #include <memory>
 
-SensorManager::SensorManager() : temperatureSensor(bmp280.getTemperatureSensor()), soilMoistureSensor(soilMoistureSensor), pressureSensor(bmp280.getPressureSensor())
+SensorManager::SensorManager() : soilMoistureSensor(6)
 {
 
 }

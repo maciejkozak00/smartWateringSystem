@@ -18,6 +18,7 @@ public:
     {
       previousTime = currentTime;
       callback();
+      Serial.println("Callback called");
     }
   }
 };

@@ -5,15 +5,14 @@
 
 class SensorManager
 {
-  TemperatureSensor temperatureSensor;
   SoilMoistureSensor soilMoistureSensor;
-  PressureSensor pressureSensor;
   TemperatureAndPressureSensor bmp280;
 public:
   SensorManager();
-  TemperatureSensor& getTemperatureSensor() { return temperatureSensor; };
+  TemperatureSensor& getTemperatureSensor() { return bmp280.getTemperatureSensor(); };
   SoilMoistureSensor& getSoilMoistureSensor() { return soilMoistureSensor; };
-  PressureSensor& getPressureSensor() { return pressureSensor; };
+  PressureSensor& getPressureSensor() { return bmp280.getPressureSensor(); };
+
 
   void initSensors();
 };

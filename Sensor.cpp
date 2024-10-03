@@ -14,7 +14,8 @@ void SoilMoistureSensor::init()
 
 float SoilMoistureSensor::readValue()
 {
-  return analogRead(pin_);
+  float inverted = static_cast<float>(analogRead(pin_)) / 0x0FFF * 100;
+  return 100.0f - inverted;
 }
 
 TemperatureSensor::TemperatureSensor(Adafruit_BMP280& bmp) : bmp_(bmp)
