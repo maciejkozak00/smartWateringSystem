@@ -6,6 +6,7 @@
 #include "SensorsLogger.h"
 #include "Timer.h"
 #include "Device.h"
+#include "MqttClient.h"
 
 class Controller
 {
@@ -13,6 +14,7 @@ class Controller
   SensorsLogger logger;
   Pump pump;
   DeviceController deviceController;
+  MqttPublisher mqttPublisher;
 
   std::vector<Timer> timers;
 public:

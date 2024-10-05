@@ -13,7 +13,6 @@ public:
   SoilMoistureSensor& getSoilMoistureSensor() { return soilMoistureSensor; };
   PressureSensor& getPressureSensor() { return bmp280.getPressureSensor(); };
 
-
   void initSensors();
 };
 
