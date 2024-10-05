@@ -32,6 +32,7 @@ public:
     }
     Serial.println("Pump on");
     digitalWrite(pin, HIGH);
+    isOn = true;
   }
   void off() override
   {
@@ -41,6 +42,7 @@ public:
     }
     Serial.println("Pump off");
     digitalWrite(pin, LOW);
+    isOn = false;
   }
 
 };
@@ -57,6 +59,7 @@ public:
     Serial.println("Checking device");
     if (itsStrategy_.getItsStrategy().isAboveTreshold(itsSensor_.readValue()))
     {
+      Serial.println("Above Strategy!");
       itsDevice_.off();
     }
     if (itsStrategy_.getItsStrategy().isBelowTreshold(itsSensor_.readValue()))
