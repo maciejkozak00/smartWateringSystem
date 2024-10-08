@@ -1,6 +1,6 @@
-#include "esp32-hal-adc.h"
 #include "Sensor.h"
-#include "Arduino.h"
+
+#include <Arduino.h>
 
 SoilMoistureSensor::SoilMoistureSensor(uint16_t pin) : pin_(pin)
 {

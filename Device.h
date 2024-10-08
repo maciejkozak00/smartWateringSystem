@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <Sensor.h>
 
+#include "MqttMessageRx.h"
+
 class IDevice
 {
 public:
@@ -47,7 +49,7 @@ public:
 
 };
 
-class DeviceController
+class DeviceController : public IMqttMessageRx
 {
   IDevice& itsDevice_;
   ISensor& itsSensor_;
@@ -66,6 +68,11 @@ public:
     {
       itsDevice_.on();
     }
+  }
+  void onPumpChange(std::string& msg)
+  {
+    bool onOff = (msg == "true");
+    onOff ? itsDevice_.on() : itsDevice_.off();
   }
 };
 
