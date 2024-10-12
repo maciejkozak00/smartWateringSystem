@@ -10,11 +10,12 @@
 
 class Controller
 {
+  MqttPublisher mqttPublisher;
+  MqttMessageHandler mqttMessageHandler;
   SensorManager manager;
   SensorsLogger logger;
   Pump pump;
   DeviceController deviceController;
-  MqttPublisher mqttPublisher;
 
   std::vector<Timer> timers;
 public:

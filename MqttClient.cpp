@@ -1,6 +1,6 @@
 #include "MqttClient.h"
 
-MqttPublisher::MqttPublisher(IMqttMessageRx& rx) : client(wifiClient), itsRx(rx)
+MqttPublisher::MqttPublisher(MqttMessageHandler& mqttMessageHandler) : client(wifiClient), messageHandler(mqttMessageHandler)
 {
   topics.reserve(4);
   topics.push_back("garden/pump");
@@ -22,7 +22,7 @@ void MqttPublisher::init()
   client.setServer(mqttBrokerIp.c_str(), mqttBrokerPort);
   client.setCallback([this](char* topic, byte* message, unsigned int length)
   {
-    this->callback(topic, message, length);
+    this->messageHandler.callback(topic, message, length);
   });
 }
 
@@ -30,7 +30,9 @@ void MqttPublisher::connect()
 {
     if (!client.connected()) {
         Serial.print("Connecting to MQTT broker...");
-        while (!client.connected()) {
+        uint8_t retryCount = 0;
+        while (!client.connected() && retryCount < 3)
+        {
             if (client.connect("ESP32Client")) 
             {
               for (std::string topic: topics)
@@ -43,6 +45,10 @@ void MqttPublisher::connect()
                 Serial.print(client.state());
                 delay(2000);
             }
+        }
+        if (retryCount == 3)
+        {
+          Serial.println("Failed to connect");
         }
     }
 }
@@ -60,15 +66,16 @@ void MqttPublisher::loop()
   client.loop();
 }
 
-void MqttPublisher::handleMessage(char* topic, std::string& message)
+void MqttMessageHandler::handleMessage(char* topic, std::string& message)
 {
-  if (strcmp(topic, "garden/pump") == 0) 
+  for (auto observer : observers)
   {
-      itsRx.onPumpChange(message);
-  } 
+    const std::string tempTopic(topic);
+    observer->onMessageReceived(tempTopic, message);
+  }
 }
 
-void MqttPublisher::callback(char* topic, byte* message, unsigned int length)
+void MqttMessageHandler::callback(char* topic, byte* message, unsigned int length)
 {
   std::string messageTemp;
   for (int i = 0; i < length; i++) 
@@ -76,4 +83,9 @@ void MqttPublisher::callback(char* topic, byte* message, unsigned int length)
     messageTemp += (char)message[i];
   }
   handleMessage(topic, messageTemp);
+}
+
+void MqttMessageHandler::attach(std::shared_ptr<IMqttMessageObserver> observer)
+{
+  observers.push_back(observer);
 }

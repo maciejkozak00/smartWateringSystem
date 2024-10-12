@@ -4,7 +4,7 @@
 #include <Arduino.h>
 #include <Sensor.h>
 
-#include "MqttMessageRx.h"
+#include "MqttMessageObserver.h"
 
 class IDevice
 {
@@ -49,7 +49,7 @@ public:
 
 };
 
-class DeviceController : public IMqttMessageRx
+class DeviceController : public IMqttMessageObserver
 {
   IDevice& itsDevice_;
   ISensor& itsSensor_;
@@ -69,10 +69,14 @@ public:
       itsDevice_.on();
     }
   }
-  void onPumpChange(std::string& msg)
+
+  void onMessageReceived(const std::string& topic, const std::string& message)
   {
-    bool onOff = (msg == "true");
-    onOff ? itsDevice_.on() : itsDevice_.off();
+    if (topic == "garden/pump")
+    {
+      bool onOff = (message == "true");
+      onOff ? itsDevice_.on() : itsDevice_.off();
+    }
   }
 };
 

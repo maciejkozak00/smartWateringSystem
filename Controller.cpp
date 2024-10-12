@@ -1,6 +1,6 @@
 #include "Controller.h"
 
-Controller::Controller() : pump(7), deviceController(pump, manager.getSoilMoistureSensor(), manager.getSoilMoistureSensor()), mqttPublisher(deviceController)
+Controller::Controller() : mqttPublisher(mqttMessageHandler), manager(mqttPublisher), pump(7), deviceController(pump, manager.getSoilMoistureSensor(), manager.getSoilMoistureSensor())
 {
 
 }
@@ -22,6 +22,11 @@ void Controller::initDevice()
   Serial.println("LoggerInitialized");
 
   mqttPublisher.init();
+  auto pumpTopicObserver = std::make_shared<DeviceController>(deviceController);
+  mqttMessageHandler.attach(pumpTopicObserver);
+  auto sensorsTopicObserver = std::make_shared<SensorManager>(manager);
+  mqttMessageHandler.attach(sensorsTopicObserver);
+  
   mqttPublisher.publish("garden/temperature", std::to_string(manager.getTemperatureSensor().readValue()));
   mqttPublisher.publish("garden/pressure", std::to_string(manager.getPressureSensor().readValue()));
   mqttPublisher.publish("garden/soilMoisure", std::to_string(manager.getSoilMoistureSensor().readValue()));
@@ -31,9 +36,6 @@ void Controller::run()
 {
   static Timer logTimer(15000, [this](){
     logger.printAllValues();
-    mqttPublisher.publish("garden/temperature", std::to_string(manager.getTemperatureSensor().readValue()));
-    mqttPublisher.publish("garden/pressure", std::to_string(manager.getPressureSensor().readValue()));
-    mqttPublisher.publish("garden/soilMoisure", std::to_string(manager.getSoilMoistureSensor().readValue()));
   });
 
   static Timer deviceControllerTimer(15000, [this](){
@@ -49,3 +51,4 @@ void addLoggingTimer()
 {
 
 }
+// mqttPublisher.attach(std::make_shared<IMqttMessageObserver>(deviceController));

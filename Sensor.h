@@ -5,39 +5,20 @@
 #include <Adafruit_BMP280.h>
 #include <memory>
 
-class ITresholdStrategy
-{
-public:
-  virtual bool isAboveTreshold(float value) = 0;
-  virtual bool isBelowTreshold(float value) = 0;
-  virtual void setTresholds(float valueLow, float valueHigh) = 0;
-  virtual ~ITresholdStrategy() {};
-};
-
-class SoilMoistureTresholdStrategy : public ITresholdStrategy
+class TresholdStrategy
 {
   float lowTreshold_ = 0;
   float highTreshold_ = 0;
 public:
-  bool isAboveTreshold(float value) override {return value > highTreshold_ && highTreshold_ != 0;};
-  bool isBelowTreshold(float value) override {return value < lowTreshold_ && highTreshold_ != 0;};
-  void setTresholds(float valueLow, float valueHigh) override {lowTreshold_ = valueLow; highTreshold_ = valueHigh;};
-};
-
-class TemperatureTresholdStrategy : public ITresholdStrategy
-{
-  float lowTreshold_ = 0;
-  float highTreshold_ = 0;
-public:
-  bool isAboveTreshold(float value) override {return value > highTreshold_ && highTreshold_ != 0;};
-  bool isBelowTreshold(float value) override {return value < lowTreshold_ && highTreshold_ != 0;};
-  void setTresholds(float valueLow, float valueHigh) override {lowTreshold_ = valueLow; highTreshold_ = valueHigh;};
+  bool isAboveTreshold(float value) {return value > highTreshold_ && highTreshold_ != 0;};
+  bool isBelowTreshold(float value) {return value < lowTreshold_ && highTreshold_ != 0;};
+  void setTresholds(float valueLow, float valueHigh) {lowTreshold_ = valueLow; highTreshold_ = valueHigh;};
 };
 
 class IStrategyOwner
 {
 public:
-  virtual ITresholdStrategy& getItsStrategy() = 0;
+  virtual TresholdStrategy& getItsStrategy() = 0;
 };
 
 class ISensor
@@ -51,12 +32,12 @@ public:
 class SoilMoistureSensor : public ISensor, public IStrategyOwner
 {
   uint16_t pin_;
-  SoilMoistureTresholdStrategy tresholdStrategy;
+  TresholdStrategy tresholdStrategy;
 public:
   SoilMoistureSensor(uint16_t pin);
   void init() override;
   float readValue() override;
-  SoilMoistureTresholdStrategy& getItsStrategy() {return tresholdStrategy;};
+  TresholdStrategy& getItsStrategy() {return tresholdStrategy;};
 };
 
 class PressureSensor : public ISensor
@@ -71,12 +52,12 @@ public:
 class TemperatureSensor : public ISensor, public IStrategyOwner
 {
   Adafruit_BMP280& bmp_;
-  TemperatureTresholdStrategy tresholdStrategy;
+  TresholdStrategy tresholdStrategy;
 public:
   TemperatureSensor(Adafruit_BMP280& bmp);
   void init() override;
   float readValue() override;
-  TemperatureTresholdStrategy& getItsStrategy() {return tresholdStrategy;};
+  TresholdStrategy& getItsStrategy() {return tresholdStrategy;};
 };
 
 class TemperatureAndPressureSensor

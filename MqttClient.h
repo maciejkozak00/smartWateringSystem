@@ -3,10 +3,9 @@
 
 #include <WiFi.h>
 #include <PubSubClient.h>
-#include <array>
 
 #include "PrivateDefinitions.h"
-#include "MqttMessageRx.h"
+#include "MqttMessageObserver.h"
 
 class IMqttPublisher
 {
@@ -19,10 +18,21 @@ class IMqttSubscriber
 {
 public:
   virtual void callback(char* topic, byte* message, unsigned int length) = 0;
+  virtual void attach(std::shared_ptr<IMqttMessageObserver> observer) = 0;
   virtual ~IMqttSubscriber() {}
 };
 
-class MqttPublisher : public IMqttPublisher, public IMqttSubscriber
+class MqttMessageHandler
+{
+    std::vector<std::shared_ptr<IMqttMessageObserver>> observers;
+
+  void handleMessage(char* topic, std::string& message);
+public:
+  void callback(char* topic, byte* message, unsigned int length);
+  void attach(std::shared_ptr<IMqttMessageObserver> observer);
+};
+
+class MqttPublisher : public IMqttPublisher
 {
   WiFiClient wifiClient;
   PubSubClient client;
@@ -31,19 +41,14 @@ class MqttPublisher : public IMqttPublisher, public IMqttSubscriber
   std::string mqttBrokerIp = MQTT_BROKER_IP;
   int mqttBrokerPort = MQTT_PORT;
 
-  IMqttMessageRx& itsRx;
-
   std::vector<std::string> topics;
-
+  MqttMessageHandler& messageHandler;
   void connect();
-  void handleMessage(char* topic, std::string& message);
 public:
-  MqttPublisher(IMqttMessageRx& rx);
+  MqttPublisher(MqttMessageHandler& mqttMessageHandler);
   void init();
   void loop();
   void publish(const std::string& topic, const std::string& message) override;
-  void callback(char* topic, byte* message, unsigned int length) override;
 };
-
 
 #endif
