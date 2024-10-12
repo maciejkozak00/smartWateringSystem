@@ -1,6 +1,6 @@
 #include "Controller.h"
 
-Controller::Controller() : pump(7), deviceController(pump, manager.getSoilMoistureSensor(), manager.getSoilMoistureSensor())
+Controller::Controller() : pump(7), deviceController(pump, manager.getSoilMoistureSensor(), manager.getSoilMoistureSensor()), mqttPublisher(deviceController)
 {
 
 }
@@ -12,8 +12,8 @@ void Controller::initDevice()
   pump.init();
   manager.initSensors();
   Serial.println("Sensors initialized");
-  manager.getSoilMoistureSensor().getItsStrategy().setTresholds(40, 45);
-  manager.getTemperatureSensor().getItsStrategy().setTresholds(22, 30);
+  manager.getSoilMoistureSensor().getItsStrategy();
+  manager.getTemperatureSensor().getItsStrategy();
   Serial.println("Treshold strategies set");
 
   logger.addSensor("temperature", &manager.getTemperatureSensor());
@@ -42,6 +42,7 @@ void Controller::run()
   logTimer.hasElapsed();
   deviceControllerTimer.hasElapsed();
   delay(50);
+  mqttPublisher.loop();
 }
 
 void addLoggingTimer()

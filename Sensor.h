@@ -1,9 +1,9 @@
-#include <memory>
 #ifndef SENSOR_H
 #define SENSOR_H
 
 #include <Wire.h>
 #include <Adafruit_BMP280.h>
+#include <memory>
 
 class ITresholdStrategy
 {
@@ -16,8 +16,8 @@ public:
 
 class SoilMoistureTresholdStrategy : public ITresholdStrategy
 {
-  float lowTreshold_;
-  float highTreshold_;
+  float lowTreshold_ = 0;
+  float highTreshold_ = 0;
 public:
   bool isAboveTreshold(float value) override {return value > highTreshold_ && highTreshold_ != 0;};
   bool isBelowTreshold(float value) override {return value < lowTreshold_ && highTreshold_ != 0;};
@@ -26,8 +26,8 @@ public:
 
 class TemperatureTresholdStrategy : public ITresholdStrategy
 {
-  float lowTreshold_;
-  float highTreshold_;
+  float lowTreshold_ = 0;
+  float highTreshold_ = 0;
 public:
   bool isAboveTreshold(float value) override {return value > highTreshold_ && highTreshold_ != 0;};
   bool isBelowTreshold(float value) override {return value < lowTreshold_ && highTreshold_ != 0;};

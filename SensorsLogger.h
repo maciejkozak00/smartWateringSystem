@@ -1,10 +1,10 @@
-#include <utility>
 #ifndef SENSORS_LOGGER_H
 #define SENSORS_LOGGER_H
 
 #include <map>
 #include <string>
 #include <Arduino.h>
+#include <utility>
 
 #include "Sensor.h"
 
