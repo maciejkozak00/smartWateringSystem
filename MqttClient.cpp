@@ -7,6 +7,8 @@ MqttPublisher::MqttPublisher(MqttMessageHandler& mqttMessageHandler) : client(wi
   topics.push_back("garden/temperatureRequest");
   topics.push_back("garden/pressureRequest");
   topics.push_back("garden/soilMoistureRequest");
+  topics.push_back("garden/setSoilMoistureTresholdLow");
+  topics.push_back("garden/setSoilMoistureTresholdHigh");
 }
 
 void MqttPublisher::init()
@@ -68,7 +70,7 @@ void MqttPublisher::loop()
 
 void MqttMessageHandler::handleMessage(char* topic, std::string& message)
 {
-  for (auto observer : observers)
+  for (auto* observer : observers)
   {
     const std::string tempTopic(topic);
     observer->onMessageReceived(tempTopic, message);
@@ -85,7 +87,7 @@ void MqttMessageHandler::callback(char* topic, byte* message, unsigned int lengt
   handleMessage(topic, messageTemp);
 }
 
-void MqttMessageHandler::attach(std::shared_ptr<IMqttMessageObserver> observer)
+void MqttMessageHandler::attach(IMqttMessageObserver* observer)
 {
   observers.push_back(observer);
 }

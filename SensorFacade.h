@@ -8,7 +8,7 @@
 class SensorManager : public IMqttMessageObserver
 {
   SoilMoistureSensor soilMoistureSensor;
-  TemperatureAndPressureSensor bmp280;
+  TemperatureAndPressureSensor bmp280 {};
 
   MqttPublisher& mqttPublisher;
 public:

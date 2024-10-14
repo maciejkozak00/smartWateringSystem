@@ -22,10 +22,8 @@ void Controller::initDevice()
   Serial.println("LoggerInitialized");
 
   mqttPublisher.init();
-  auto pumpTopicObserver = std::make_shared<DeviceController>(deviceController);
-  mqttMessageHandler.attach(pumpTopicObserver);
-  auto sensorsTopicObserver = std::make_shared<SensorManager>(manager);
-  mqttMessageHandler.attach(sensorsTopicObserver);
+  mqttMessageHandler.attach(&deviceController);
+  mqttMessageHandler.attach(&manager);
   
   mqttPublisher.publish("garden/temperature", std::to_string(manager.getTemperatureSensor().readValue()));
   mqttPublisher.publish("garden/pressure", std::to_string(manager.getPressureSensor().readValue()));

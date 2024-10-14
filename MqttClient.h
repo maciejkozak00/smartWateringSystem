@@ -24,12 +24,12 @@ public:
 
 class MqttMessageHandler
 {
-    std::vector<std::shared_ptr<IMqttMessageObserver>> observers;
+    std::vector<IMqttMessageObserver*> observers;
 
   void handleMessage(char* topic, std::string& message);
 public:
   void callback(char* topic, byte* message, unsigned int length);
-  void attach(std::shared_ptr<IMqttMessageObserver> observer);
+  void attach(IMqttMessageObserver* observer);
 };
 
 class MqttPublisher : public IMqttPublisher
