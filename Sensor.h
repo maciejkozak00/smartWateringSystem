@@ -10,9 +10,12 @@ class TresholdStrategy
   float lowTreshold_ = 0;
   float highTreshold_ = 0;
 public:
-  bool isAboveTreshold(float value) {return value > highTreshold_ && highTreshold_ != 0;};
-  bool isBelowTreshold(float value) {return value < lowTreshold_ && highTreshold_ != 0;};
-  void setTresholds(float valueLow, float valueHigh) {lowTreshold_ = valueLow; highTreshold_ = valueHigh;};
+  TresholdStrategy() = default;
+
+  bool isAboveTreshold(float value);
+  bool isBelowTreshold(float value);
+  void setTresholdLow(float valueLow);
+  void setTresholdHigh(float valueHigh);
 };
 
 class IStrategyOwner
@@ -32,12 +35,12 @@ public:
 class SoilMoistureSensor : public ISensor, public IStrategyOwner
 {
   uint16_t pin_;
-  TresholdStrategy tresholdStrategy;
+  TresholdStrategy itsTresholdStrategy;
 public:
   SoilMoistureSensor(uint16_t pin);
   void init() override;
   float readValue() override;
-  TresholdStrategy& getItsStrategy() {return tresholdStrategy;};
+  TresholdStrategy& getItsStrategy() {return itsTresholdStrategy;};
 };
 
 class PressureSensor : public ISensor

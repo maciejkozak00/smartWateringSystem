@@ -1,6 +1,7 @@
 #include "Controller.h"
+#include "PrivateDefinitions.h"
 
-Controller::Controller() : mqttPublisher(mqttMessageHandler), manager(mqttPublisher), pump(7), deviceController(pump, manager.getSoilMoistureSensor(), manager.getSoilMoistureSensor())
+Controller::Controller() : mqttPublisher(mqttMessageHandler), manager(mqttPublisher), pump(PUMP_PIN), deviceController(pump, manager.getSoilMoistureSensor(), manager.getSoilMoistureSensor())
 {
 
 }
@@ -22,10 +23,8 @@ void Controller::initDevice()
   Serial.println("LoggerInitialized");
 
   mqttPublisher.init();
-  auto pumpTopicObserver = std::make_shared<DeviceController>(deviceController);
-  mqttMessageHandler.attach(pumpTopicObserver);
-  auto sensorsTopicObserver = std::make_shared<SensorManager>(manager);
-  mqttMessageHandler.attach(sensorsTopicObserver);
+  mqttMessageHandler.attach(&deviceController);
+  mqttMessageHandler.attach(&manager);
   
   mqttPublisher.publish("garden/temperature", std::to_string(manager.getTemperatureSensor().readValue()));
   mqttPublisher.publish("garden/pressure", std::to_string(manager.getPressureSensor().readValue()));
