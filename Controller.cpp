@@ -1,6 +1,7 @@
 #include "Controller.h"
+#include "PrivateDefinitions.h"
 
-Controller::Controller() : mqttPublisher(mqttMessageHandler), manager(mqttPublisher), pump(7), deviceController(pump, manager.getSoilMoistureSensor(), manager.getSoilMoistureSensor())
+Controller::Controller() : mqttPublisher(mqttMessageHandler), manager(mqttPublisher), pump(PUMP_PIN), deviceController(pump, manager.getSoilMoistureSensor(), manager.getSoilMoistureSensor())
 {
 
 }

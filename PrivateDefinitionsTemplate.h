@@ -8,4 +8,9 @@
 #define MQTT_BROKER_IP "your mqtt broker ip"
 #define MQTT_PORT 1883 // usually for non tls connections its 1883, but you may have to change it
 
+#define BMP280_SDA 4
+#define BMP280_SCL 5
+
+#define PUMP_PIN 7
+
 #endif

@@ -14,6 +14,7 @@ public:
   void hasElapsed()
   {
     unsigned long currentTime = millis();
+
     if (currentTime - previousTime >= interval)
     {
       previousTime = currentTime;

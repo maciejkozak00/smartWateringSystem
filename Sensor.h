@@ -1,4 +1,3 @@
-#include <stdint.h>
 #ifndef SENSOR_H
 #define SENSOR_H
 
@@ -13,10 +12,10 @@ class TresholdStrategy
 public:
   TresholdStrategy() = default;
 
-  bool isAboveTreshold(float value) { return (value > highTreshold_ && highTreshold_ != 0) || value == 0; };
-  bool isBelowTreshold(float value) { return value < lowTreshold_ && lowTreshold_ != 0 && value != 0;};
-  void setTresholdLow(float valueLow) { lowTreshold_ = valueLow; };
-  void setTresholdHigh(float valueHigh) { highTreshold_ = valueHigh; };
+  bool isAboveTreshold(float value);
+  bool isBelowTreshold(float value);
+  void setTresholdLow(float valueLow);
+  void setTresholdHigh(float valueHigh);
 };
 
 class IStrategyOwner

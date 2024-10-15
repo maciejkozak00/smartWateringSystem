@@ -2,7 +2,7 @@
 
 MqttPublisher::MqttPublisher(MqttMessageHandler& mqttMessageHandler) : client(wifiClient), messageHandler(mqttMessageHandler)
 {
-  topics.reserve(4);
+  topics.reserve(5);
   topics.push_back("garden/pump");
   topics.push_back("garden/temperatureRequest");
   topics.push_back("garden/pressureRequest");
