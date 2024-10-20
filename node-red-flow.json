@@ -1,0 +1,780 @@
+[
+    {
+        "id": "c758f8fc63438e32",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "7ee0bb275a9da709",
+        "type": "mqtt in",
+        "z": "c758f8fc63438e32",
+        "name": "Temperature input",
+        "topic": "garden/temperature",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "21221eee8ae7ce7f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 340,
+        "wires": [
+            [
+                "e07333b572bcdb0b"
+            ]
+        ]
+    },
+    {
+        "id": "fefcd806824c8b84",
+        "type": "ui_gauge",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "group": "d0128f3825974653",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Temperatura",
+        "label": "°C",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "50",
+        "colors": [
+            "#62a0ea",
+            "#00b500",
+            "#ca3838"
+        ],
+        "seg1": "20",
+        "seg2": "25",
+        "diff": false,
+        "className": "",
+        "x": 630,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "e07333b572bcdb0b",
+        "type": "function",
+        "z": "c758f8fc63438e32",
+        "name": "function 1",
+        "func": "// Assuming msg.payload contains the float value\nlet floatValue = parseFloat(msg.payload);\nmsg.payload = floatValue.toFixed(1); // Convert to string with 1 decimal place\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 380,
+        "wires": [
+            [
+                "fefcd806824c8b84",
+                "0d3b088804826048"
+            ]
+        ]
+    },
+    {
+        "id": "e28d41136b781058",
+        "type": "mqtt in",
+        "z": "c758f8fc63438e32",
+        "name": "Pressure input",
+        "topic": "garden/pressure",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "21221eee8ae7ce7f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 270,
+        "y": 420,
+        "wires": [
+            [
+                "ab585608f89acdc1"
+            ]
+        ]
+    },
+    {
+        "id": "ab585608f89acdc1",
+        "type": "function",
+        "z": "c758f8fc63438e32",
+        "name": "function 2",
+        "func": "// Assuming msg.payload contains the float value\nlet floatValue = parseFloat(msg.payload);\nmsg.payload = floatValue.toFixed(1); // Convert to string with 1 decimal place\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 440,
+        "wires": [
+            [
+                "b38e85b590080d58"
+            ]
+        ]
+    },
+    {
+        "id": "b38e85b590080d58",
+        "type": "ui_gauge",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "group": "d0128f3825974653",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "gtype": "donut",
+        "title": "Ciśnienie",
+        "label": "hPa",
+        "format": "{{value}}",
+        "min": "950",
+        "max": "1050",
+        "colors": [
+            "#ff0000",
+            "#00b500",
+            "#ff0000"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 640,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "0d3b088804826048",
+        "type": "ui_chart",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "group": "4dab6aa3ac2b879c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "label": "Temperature",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "linear",
+        "nodata": "",
+        "dot": false,
+        "ymin": "",
+        "ymax": "",
+        "removeOlder": 1,
+        "removeOlderPoints": "700",
+        "removeOlderUnit": "604800",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": false,
+        "colors": [
+            "#1f77b4",
+            "#aec7e8",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 810,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9a76d7b32291dae3",
+        "type": "mqtt in",
+        "z": "c758f8fc63438e32",
+        "name": "Soil Moisture input",
+        "topic": "garden/soilMoisture",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "21221eee8ae7ce7f",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 290,
+        "y": 500,
+        "wires": [
+            [
+                "619deceebe6056b5"
+            ]
+        ]
+    },
+    {
+        "id": "619deceebe6056b5",
+        "type": "function",
+        "z": "c758f8fc63438e32",
+        "name": "function 3",
+        "func": "// Assuming msg.payload contains the float value\nlet floatValue = parseFloat(msg.payload);\nmsg.payload = floatValue.toFixed(1); // Convert to string with 1 decimal place\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 520,
+        "wires": [
+            [
+                "2fb476bdeaa3373d"
+            ]
+        ]
+    },
+    {
+        "id": "2fb476bdeaa3373d",
+        "type": "ui_gauge",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "group": "d0128f3825974653",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "gtype": "donut",
+        "title": "Wilgotność",
+        "label": "%",
+        "format": "{{value}}",
+        "min": "0",
+        "max": "100",
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 650,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "109a885e336076a9",
+        "type": "ui_switch",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "label": "Pompa",
+        "tooltip": "",
+        "group": "d0128f3825974653",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 380,
+        "y": 640,
+        "wires": [
+            [
+                "406a437e090e3a97"
+            ]
+        ]
+    },
+    {
+        "id": "406a437e090e3a97",
+        "type": "mqtt out",
+        "z": "c758f8fc63438e32",
+        "name": "PumpSwitch",
+        "topic": "garden/pump",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "21221eee8ae7ce7f",
+        "x": 650,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "e6a75fd889fc723a",
+        "type": "ui_button",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "group": "320440275f7eeb7b",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "Read Temperature",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1330,
+        "y": 360,
+        "wires": [
+            [
+                "fb87fb179e158f05"
+            ]
+        ]
+    },
+    {
+        "id": "fb87fb179e158f05",
+        "type": "mqtt out",
+        "z": "c758f8fc63438e32",
+        "name": "TemperatureRequest",
+        "topic": "garden/temperatureRequest",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "21221eee8ae7ce7f",
+        "x": 1560,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "7ab95f1828f6ee4d",
+        "type": "mqtt out",
+        "z": "c758f8fc63438e32",
+        "name": "PressureRequest",
+        "topic": "garden/pressureRequest",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "21221eee8ae7ce7f",
+        "x": 1550,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "0a9a16e0c80b7a48",
+        "type": "ui_button",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "group": "320440275f7eeb7b",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "Read Pressure",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1320,
+        "y": 460,
+        "wires": [
+            [
+                "7ab95f1828f6ee4d"
+            ]
+        ]
+    },
+    {
+        "id": "1aa7115841fbf073",
+        "type": "mqtt out",
+        "z": "c758f8fc63438e32",
+        "name": "SoilMoistureRequest",
+        "topic": "garden/soilMoistureRequest",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "21221eee8ae7ce7f",
+        "x": 1560,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "e7c7e6c5ee65e873",
+        "type": "ui_button",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "group": "320440275f7eeb7b",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "label": "Read Soil Moisture",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1330,
+        "y": 540,
+        "wires": [
+            [
+                "1aa7115841fbf073"
+            ]
+        ]
+    },
+    {
+        "id": "daca589e91dfba21",
+        "type": "inject",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "900",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 1090,
+        "y": 400,
+        "wires": [
+            [
+                "e6a75fd889fc723a",
+                "0a9a16e0c80b7a48",
+                "e7c7e6c5ee65e873"
+            ]
+        ]
+    },
+    {
+        "id": "8dcd64b214ab846f",
+        "type": "ui_slider",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "label": "Soil Moisture Low",
+        "tooltip": "",
+        "group": "320440275f7eeb7b",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "className": "",
+        "x": 1290,
+        "y": 720,
+        "wires": [
+            [
+                "e9ace6fc04035abc"
+            ]
+        ]
+    },
+    {
+        "id": "e6cb7158d0d6b162",
+        "type": "ui_slider",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "label": "Soil Moisture High",
+        "tooltip": "",
+        "group": "320440275f7eeb7b",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "outs": "end",
+        "topic": "topic",
+        "topicType": "msg",
+        "min": 0,
+        "max": "100",
+        "step": 1,
+        "className": "",
+        "x": 1290,
+        "y": 780,
+        "wires": [
+            [
+                "5aefa6c8198d653a"
+            ]
+        ]
+    },
+    {
+        "id": "e9ace6fc04035abc",
+        "type": "mqtt out",
+        "z": "c758f8fc63438e32",
+        "name": "SoilMoistureLowTreshold",
+        "topic": "garden/setSoilMoistureTresholdLow",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "21221eee8ae7ce7f",
+        "x": 1570,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "5aefa6c8198d653a",
+        "type": "mqtt out",
+        "z": "c758f8fc63438e32",
+        "name": "SoilMoistureHighTreshold",
+        "topic": "garden/setSoilMoistureTresholdHigh",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "21221eee8ae7ce7f",
+        "x": 1570,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "dd829a90b81d1d95",
+        "type": "http request",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://192.168.8.101:5000/message",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [
+            {
+                "keyType": "Content-Type",
+                "keyValue": "",
+                "valueType": "application/json",
+                "valueValue": ""
+            }
+        ],
+        "x": 950,
+        "y": 1080,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "438fa267ead24886",
+        "type": "ui_button",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "group": "320440275f7eeb7b",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Aktualna moc pv",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 540,
+        "y": 920,
+        "wires": [
+            [
+                "4b9f401dab308ed7"
+            ]
+        ]
+    },
+    {
+        "id": "4b9f401dab308ed7",
+        "type": "function",
+        "z": "c758f8fc63438e32",
+        "name": "function 4",
+        "func": "msg.payload = {\n    action: \"get_current_power\"\n};\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 1000,
+        "wires": [
+            [
+                "dd829a90b81d1d95"
+            ]
+        ]
+    },
+    {
+        "id": "ba8552262b994651",
+        "type": "http in",
+        "z": "c758f8fc63438e32",
+        "name": "",
+        "url": "/mocpv",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 410,
+        "y": 1100,
+        "wires": [
+            [
+                "f1b6afbd97d5f196"
+            ]
+        ]
+    },
+    {
+        "id": "b850cd722aefc81d",
+        "type": "ui_text",
+        "z": "c758f8fc63438e32",
+        "group": "320440275f7eeb7b",
+        "order": 6,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Moc ",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": 16,
+        "color": "#000000",
+        "x": 730,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "f1b6afbd97d5f196",
+        "type": "function",
+        "z": "c758f8fc63438e32",
+        "name": "function 5",
+        "func": "let currentPower = msg.payload.result.result[0].datas[0].value;\n\n// Set the extracted value to the msg object\nmsg.payload = currentPower;\n\n// Return the modified msg\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 560,
+        "y": 1160,
+        "wires": [
+            [
+                "b850cd722aefc81d"
+            ]
+        ]
+    },
+    {
+        "id": "21221eee8ae7ce7f",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "d0128f3825974653",
+        "type": "ui_group",
+        "name": "Garden",
+        "tab": "c7925833602431af",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4dab6aa3ac2b879c",
+        "type": "ui_group",
+        "name": "Garden Data",
+        "tab": "c7925833602431af",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "320440275f7eeb7b",
+        "type": "ui_group",
+        "name": "Request",
+        "tab": "c7925833602431af",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "c7925833602431af",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "wi-wi-sunny",
+        "disabled": false,
+        "hidden": false
+    }
+]
