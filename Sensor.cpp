@@ -73,12 +73,12 @@ void TemperatureAndPressureSensor::init()
 
 bool TresholdStrategy::isAboveTreshold(float value)
 {
-  return (value > highTreshold_ && highTreshold_ != 0) || value == 0; 
+  return (value > highTreshold_ && highTreshold_ != 0); 
 }
 
 bool TresholdStrategy::isBelowTreshold(float value)
 {
-  return value < lowTreshold_ && lowTreshold_ != 0 && value != 0;
+  return value < lowTreshold_ && lowTreshold_ != 0;
 }
 
 void TresholdStrategy::setTresholdLow(float valueLow)
