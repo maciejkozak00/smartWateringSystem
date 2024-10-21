@@ -1,4 +1,5 @@
 #include "Sensor.h"
+#include "PrivateDefinitions.h"
 
 #include <Arduino.h>
 
@@ -14,7 +15,7 @@ void SoilMoistureSensor::init()
 
 float SoilMoistureSensor::readValue()
 {
-  float inverted = static_cast<float>(analogRead(pin_)) / 0x0FFF * 100;
+  float inverted = static_cast<float>(analogRead(pin_)) / 0x0FFF * 100; // adc is 12 bit and analog read returns 16 bit value
   return 100.0f - inverted;
 }
 
@@ -49,7 +50,7 @@ TemperatureAndPressureSensor::TemperatureAndPressureSensor() : pressureSensor(bm
 
 void TemperatureAndPressureSensor::init()
 {
-  Wire.begin(4, 5);
+  Wire.begin(BMP280_SDA, BMP280_SCL);
   bool started = false;
   for (uint8_t retryCounter = 0; retryCounter < 3; ++retryCounter)
   {
@@ -68,4 +69,24 @@ void TemperatureAndPressureSensor::init()
     Serial.println("Failed to init BMP280");
     delay(1000);
   }
+}
+
+bool TresholdStrategy::isAboveTreshold(float value)
+{
+  return (value > highTreshold_ && highTreshold_ != 0); 
+}
+
+bool TresholdStrategy::isBelowTreshold(float value)
+{
+  return value < lowTreshold_ && lowTreshold_ != 0;
+}
+
+void TresholdStrategy::setTresholdLow(float valueLow)
+{
+  lowTreshold_ = valueLow;
+}
+
+void TresholdStrategy::setTresholdHigh(float valueHigh)
+{
+  highTreshold_ = valueHigh;
 }

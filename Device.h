@@ -59,14 +59,14 @@ public:
   void run()
   {
     Serial.println("Checking device");
+    if (itsStrategy_.getItsStrategy().isBelowTreshold(itsSensor_.readValue()))
+    {
+      itsDevice_.on();
+    }
     if (itsStrategy_.getItsStrategy().isAboveTreshold(itsSensor_.readValue()))
     {
       Serial.println("Above Strategy!");
       itsDevice_.off();
-    }
-    if (itsStrategy_.getItsStrategy().isBelowTreshold(itsSensor_.readValue()))
-    {
-      itsDevice_.on();
     }
   }
 
